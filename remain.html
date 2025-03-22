@@ -1,0 +1,231 @@
+
+    <header class="container-fluid d-flex justify-content-between align-items-center" id="header">
+
+            <div class="fs-3 col-lg-1">
+                <span class="bg-orange">Old</span><span class="text-dark">Gold</span>
+            </div>
+
+
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <!-- <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="all_products.php">All Products</a></li>
+                    <li><a href="customer/my_account.php">My Account</a></li>
+                    <li><a href="">Sign Up</a></li>
+                    <li><a href="cart.php">Shopping Cart</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul> -->
+                <div class="col-6">
+                    <form action="result.php" method="POST" class="mb-0">
+                        <input type="text" name="user_query" placeholder="search a product" size="25"
+                            class="form-control">
+                        <!-- <input type="submit" name="search" vlaue="search" size="25" > -->
+                    </form>
+
+                </div>
+                <div class="col-lg-2">
+                    <a href="cart.php" class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6" style="width: 2em; height: 2em; color:orange;">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
+                    </a>
+                </div>
+                <!-- <div class="shopping_cart"><span style="float:right; font-size:18px; line-height:40px;">
+                 <b style="color:yellow;">Shopping Cart-</b>Total Item:<?php total_items(); ?> Total Price:<?php total_price(); ?> <a href="cart.php" style="color:yellow; ">Go To Cart</a>
+                </span> -->
+                </div>
+            </nav>
+
+        </header>
+
+<div class="main_wrapper">
+        <!-- HEADER STARTS -->
+       
+        <!-- CONTENT WRAPPER -->
+        <div class="content_wrapper">
+            <div class="sidebar">
+                <div class="sidebar_title">Categories</div>
+                <ul class="cats">
+                <?php    getcats(); ?>
+                </ul>
+
+                <div class="sidebar_title">Brands</div>
+                <ul class="cats">
+                <?php    getbrands(); ?>  
+                </ul>
+            </div>
+            <div class="content_area">
+               
+                <div class="shopping_cart"><span style="float:right; font-size:18px; line-height:40px;">
+                    Welcome guest! <b style="color:yellow;">Shopping Cart-</b>Total Item:<?php total_items(); ?> Total Price:<?php total_price(); ?> <a href="cart.php" style="color:yellow; ">Go To Cart</a>
+                    </span>
+                </div>
+                   <div style=""class="products_box"> 
+                     <?php  getpro(); ?>
+                     <?php  getcatpro(); ?>
+                     <?php  getbrandpro(); ?>
+                     
+            </div>
+            <?php cart(); ?>
+        </div>
+        <!-- FOOTER STARTS -->
+        <div class="footer">
+            <h2 style="text-align:center; padding-top:30px;">&copy; 2022 by www.OnlineTuting.com</h2>
+        </div>
+    </div>
+
+
+
+
+    <!-- from details page.php  -->
+
+       <div class="content_wrapper">
+            <div class="content_area">
+                <div class="shopping_cart"><span style="float:right; font-size:18px; line-height:40px;">
+                        Welcome guest! <b style="color:yellow;">Shopping Cart-</b>Total Item: Total Price: <a
+                            href="cart.php" style="color:yellow;">Go To Cart</a>
+                    </span>
+                </div>
+                <div class="products_box">
+                    <?php
+                        if(isset($_GET['pro_id'])){
+                            $product_id=$_GET['pro_id'];
+                            $get_pro="SELECT * FROM products where product_id=$product_id";
+                            $run_pro=mysqli_query($conn,$get_pro);
+                            while($row_pro=mysqli_fetch_array($run_pro)){
+
+                                $pro_id=$row_pro['product_id'];
+                                $pro_title=$row_pro['product_title'];
+                                $pro_price=$row_pro['product_price'];
+                                $pro_image=$row_pro['product_image'];
+                                $pro_desc=$row_pro['product_desc'];
+                           
+                                echo"
+                                    <div id='single_product'>
+                                    <h3>$pro_title</h3>
+                                    <img src='admin-area/product_images/$pro_image' width='400' height='300'>
+                                    <p><b>price:$pro_price $</b></p>
+                                    <p>$pro_desc<p>
+                                    <a href='index.php'style='float:left;'>Go Back</a>
+                                    <a href='index.php?pro_id=$pro_id'><button style='float:right;'>Add To Cart</button></a>
+    
+                                    </div>
+                                
+                                ";
+                            }
+                        }
+                    ?>
+
+
+                    <?php cart(); ?>
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER STARTS -->
+        <div class="footer">
+            <h2 style="text-align:center; padding-top:30px;">&copy; 2022 by www.OnlineTuting.com</h2>
+        </div>
+        </div>
+
+
+        <!-- shopping tag -->
+
+         <div class='col-11 col-lg-6 m-auto border border-2 p-3 rounded-3 position-relative'>
+                                            <img src='admin-area/product_images/$pro_image' class='w-100'>
+                                            <svg xmlns='http://www.w3.org/2000/svg' fill='#FFA500' viewBox='0 0 24 24' stroke-width='1.5' stroke='#DEE2E6' class='w-6 h-6 price-tag position-absolute' >
+                                                <path stroke-linecap='round' stroke-linejoin='round' d='M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z' class='shadow' />
+                                                <path stroke-linecap='round' stroke-linejoin='round' d='M6 6h.008v.008H6V6z' />
+                                            </svg>
+                                            <p class='badge mb-0 position-absolute price'>$pro_price$</p>
+
+                                        </div>
+
+
+<!-- nav bar -->
+  <nav class="nav-bar d-flex col-lg-10">
+                    <div class="fs-3 side-bar-logo d-none">
+                        <span class="bg-orange">Old</span><span class="text-dark">Gold</span>
+                    </div>
+
+                    <form action="result.php" method="POST"
+                        class="d-flex mb-0 align-items-center col-lg-9 position-relative" role="search">
+                        <input class="form-control rounded-5" type="search" name="user_query"
+                            placeholder="search a product" size="25" id="search-box" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6 bg-warning text-light" id="magnifier">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </form>
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-5 col-lg-3 d-flex flex-row ps-5">
+                        <li class="nav-item bg-light">
+                            <a href="customer/my_account.php" class="text-decoration-none d-block m-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor"
+                                    class="w-6 h-6 nav-icons text-warning d-block m-auto">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="cart.php"
+                                class="d-flex link-dark text-decoration-none align-items-end justify-content-center m-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-warning nav-icons"
+                                    style="">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                </svg>
+                                <span>0 Af</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+
+                <!-- cart karachi -->
+
+                <a href="cart.php"
+                    class="d-flex link-dark text-decoration-none align-items-end justify-content-center m-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-warning nav-icons"
+                        style="">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                    </svg>
+                    <span>0 Af</span>
+                </a>
+
+            <!-- user svg --> 
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="w-6 h-6 nav-icons text-warning d-block m-auto">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+
+
+            <!-- hader of cart.php title -->
+              <div class='bg-warning position-relative shadow mb-5 detail-header py-3 text-light'>
+                                    <a href='index.php#top-product'  class='arrow-left position-absolute top-0 bottom-0 m-auto link-dark'>
+                                      <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='w-6 h-6'>
+                                        <path stroke-linecap='round' stroke-linejoin='round' d='M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75' /></svg>
+                                    </a>
+                                    <h3 class='text-center product-name display-6'>$pro_title</h3>
+                                </div>
+
+
+
+        <!-- price tag of  -->
+         <div class='position-absolute price-tag'>
+                                               <div class='position-relative'>
+                                                <svg xmlns='http://www.w3.org/2000/svg' fill='orange' viewBox='0 0 24 24' stroke-width='1.5' stroke='#DEE2E6' class='w-6 h-6 ' >
+                                                    <path stroke-linecap='round' stroke-linejoin='round' d='M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z' class='shadow' />
+                                                    <path stroke-linecap='round' stroke-linejoin='round' d='M6 6h.008v.008H6V6z' />
+                                                </svg>
+                                                <p class='badge mb-0 text-light position-absolute price'> $pro_price$</p>
+                                               </div>
